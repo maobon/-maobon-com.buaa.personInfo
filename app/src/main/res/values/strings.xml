@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">个人信息</string>
+    <string name="hint_username">姓名</string>
+    <string name="hint_phone">手机号</string>
+    <string name="text_sex">性别</string>
+    <string name="text_mela">男</string>
+    <string name="text_female">女</string>
+    <string name="text_fav_lesson">我喜欢的专业课:</string>
+    <string name="text_lesson_java">Java语言</string>
+    <string name="text_lesson_android">Android</string>
+    <string name="text_lesson_english">大学英语</string>
+    <string name="text_lesson_math">高等数学</string>
+    <string name="button_text">确定</string>
+</resources>
