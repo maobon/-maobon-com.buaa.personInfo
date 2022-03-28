@@ -19,18 +19,20 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import java.io.ByteArrayOutputStream
 
+/**
+ * create by xin on 2022-3-28
+ */
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var activityMainBinding: ActivityMainBinding
     private var picUri: Uri? = null
-
     private var avatarBase64: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
-
         initViews()
     }
 
@@ -38,23 +40,20 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.btnSubmit.setOnClickListener {
             try {
                 checkInputsValidate()
+                val personInfo = createPersonInfo(
+                    activityMainBinding.etUsername.text.toString(),
+                    activityMainBinding.etPhone.text.toString(),
+                    if (activityMainBinding.rbMela.isChecked) 1 else 0,
+                    buildCheckBoxesResult(),
+                    avatarBase64
+                )
+                printLog(personInfo.toString())
+                snack(activityMainBinding.root, "Detail") {
+                    showContentDialog(this, "PersonInfo", personInfo.toString())
+                }
             } catch (e: IllegalArgumentException) {
                 snack(activityMainBinding.root, e.message!!)
             }
-
-            printLog("ok 可以提交了")
-
-            val gender = if (activityMainBinding.rbMela.isChecked) 1 else 0
-            val personInfo = createPersonInfo(
-                activityMainBinding.etUsername.text.toString(),
-                activityMainBinding.etPhone.text.toString(),
-                gender,
-                buildCheckBoxesResult(),
-                avatarBase64
-            )
-            printLog(personInfo.toString())
-
-            // activityMainBinding.ivAvatar
         }
 
         activityMainBinding.etPhone.addTextChangedListener {
@@ -84,40 +83,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == RESULT_OK && requestCode == REQUEST_GET_SINGLE_FILE) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_GET_SINGLE_FILE)
             setAvatar(data!!.data!!)
-        }
-    }
-
-    private fun setAvatar(uri: Uri) {
-        this.picUri = uri;
-        val transform = RequestOptions().transform(CenterCrop(), RoundedCorners(360))
-        val imageView = activityMainBinding.ivAvatar
-        Glide.with(imageView.context)
-            .asBitmap()
-            .load(uri)
-            .apply(transform)
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    imageView.setImageBitmap(resource)
-
-                    val createScaledBitmap = Bitmap.createScaledBitmap(resource, 80, 80, false)
-                    val byteArrayOutputStream = ByteArrayOutputStream()
-                    createScaledBitmap.compress(
-                        Bitmap.CompressFormat.JPEG,
-                        50,
-                        byteArrayOutputStream
-                    )
-
-                    val byteArray = byteArrayOutputStream.toByteArray();
-                    avatarBase64 = Base64.encodeToString(byteArray, Base64.URL_SAFE)
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    TODO("Not yet implemented")
-                }
-            })
     }
 
     private fun checkInputsValidate() {
@@ -154,6 +121,34 @@ class MainActivity : AppCompatActivity() {
         if (sb.indexOf("|") == 0)
             sb = sb.substring(1, sb.length)
         return sb
+    }
+
+    private fun setAvatar(uri: Uri) {
+        this.picUri = uri;
+        val transform = RequestOptions().transform(CenterCrop(), RoundedCorners(360))
+        val imageView = activityMainBinding.ivAvatar
+        Glide.with(imageView.context)
+            .asBitmap()
+            .load(uri)
+            .apply(transform)
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    imageView.setImageBitmap(resource)
+                    // avatar pic encode to base64
+                    val createScaledBitmap = Bitmap.createScaledBitmap(resource, 30, 30, false)
+                    val byteArrayOutputStream = ByteArrayOutputStream()
+                    createScaledBitmap.compress(
+                        Bitmap.CompressFormat.JPEG,
+                        30,
+                        byteArrayOutputStream
+                    )
+                    val byteArray = byteArrayOutputStream.toByteArray();
+                    avatarBase64 = Base64.encodeToString(byteArray, Base64.URL_SAFE)
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+            })
     }
 
     private fun createPersonInfo(

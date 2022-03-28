@@ -1,5 +1,6 @@
 package com.buaa.sample
 
+import android.app.AlertDialog
 import android.content.Context
 import android.util.Log
 import android.view.View
@@ -7,11 +8,14 @@ import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import java.util.regex.Pattern
 
+/**
+ * create by xin on 2022-3-28
+ */
+
 const val KEY_URI = "KEY_URI"
 const val REQUEST_GET_SINGLE_FILE = 100
 
 const val LOG_TAG = "LOG"
-
 
 fun printLog(msg: String) = Log.e(LOG_TAG, msg)
 
@@ -30,5 +34,13 @@ const val PHONE_REGEX =
 
 fun isPhoneInvalidate(number: String) =
     !Pattern.compile(PHONE_REGEX).matcher(number).matches()
+
+fun showContentDialog(context: Context, title: String, content: String) =
+    AlertDialog.Builder(context)
+        .setTitle(title)
+        .setMessage(content)
+        .setCancelable(true)
+        .create()
+        .show()
 
 
