@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Base64
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.buaa.sample.databinding.ActivityMainBinding
@@ -71,6 +73,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.item_authorize) {
+            showContentDialog(this, "Authorized", "Create by xin on 2022-3-28")
+        }
+        return true
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(KEY_URI, picUri.toString())
@@ -91,14 +105,11 @@ class MainActivity : AppCompatActivity() {
         val username = activityMainBinding.etUsername.text.toString()
         if (TextUtils.isEmpty(username))
             throw IllegalArgumentException("username is null")
-
         val phone = activityMainBinding.etPhone.text.toString()
         if (TextUtils.isEmpty(phone))
             throw IllegalArgumentException("phone number is null")
-
         if (isPhoneInvalidate(phone))
             throw IllegalArgumentException("phone number is invalidate")
-
         val cbJavaChecked = activityMainBinding.cbJava.isChecked
         val cbAndroidChecked = activityMainBinding.cbAndroid.isChecked
         val cbEnglishChecked = activityMainBinding.cbEnglish.isChecked
@@ -109,17 +120,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun buildCheckBoxesResult(): String {
         val stringBuilder = StringBuilder()
-        if (activityMainBinding.cbJava.isChecked)
-            stringBuilder.append("Java")
-        if (activityMainBinding.cbAndroid.isChecked)
-            stringBuilder.append("|Android")
-        if (activityMainBinding.cbEnglish.isChecked)
-            stringBuilder.append("|English")
-        if (activityMainBinding.cbMath.isChecked)
-            stringBuilder.append("|Math")
+        if (activityMainBinding.cbJava.isChecked) stringBuilder.append("Java")
+        if (activityMainBinding.cbAndroid.isChecked) stringBuilder.append("|Android")
+        if (activityMainBinding.cbEnglish.isChecked) stringBuilder.append("|English")
+        if (activityMainBinding.cbMath.isChecked) stringBuilder.append("|Math")
         var sb = stringBuilder.toString()
-        if (sb.indexOf("|") == 0)
-            sb = sb.substring(1, sb.length)
+        if (sb.indexOf("|") == 0) sb = sb.substring(1, sb.length)
         return sb
     }
 
