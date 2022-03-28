@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "PersonalInfo"
+rootProject.name = "com.buaa.personInfo"
 include ':app'

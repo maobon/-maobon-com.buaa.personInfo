@@ -44,7 +44,8 @@
                 android:drawableStart="@drawable/ic_phone"
                 android:drawablePadding="10dp"
                 android:hint="@string/hint_phone"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLength="11" />
 
             <TextView
                 android:id="@+id/tv_num_count"
@@ -63,8 +64,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:paddingEnd="15dp"
                     android:text="@string/text_sex"
-                    android:textSize="15sp" />
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
 
                 <RadioGroup
                     android:layout_width="match_parent"
@@ -74,16 +78,18 @@
 
                     <RadioButton
                         android:id="@+id/rb_mela"
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="@string/text_mela" />
+                        android:text="@string/text_mela"
+                        android:textColor="@color/black" />
 
                     <RadioButton
                         android:id="@+id/rb_female"
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/text_female" />
+                        android:text="@string/text_female"
+                        android:textColor="@color/black" />
                 </RadioGroup>
             </RelativeLayout>
 
@@ -91,40 +97,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_fav_lesson"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <CheckBox
                 android:id="@+id/cb_java"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_lesson_java"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
 
             <CheckBox
                 android:id="@+id/cb_android"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_lesson_android"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
 
             <CheckBox
                 android:id="@+id/cb_english"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_lesson_english"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
 
             <CheckBox
                 android:id="@+id/cb_math"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_lesson_math"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:text="@string/button_text" />
         </LinearLayout>
     </RelativeLayout>

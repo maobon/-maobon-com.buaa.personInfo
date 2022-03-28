@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.buaa.sample.databinding.ActivityMainBinding
@@ -26,9 +27,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        activityMainBinding.etPhone.addTextChangedListener {
-            printLog(it.toString())
+        activityMainBinding.btnSubmit.setOnClickListener {
+            try {
+                checkInputsValidate()
+            } catch (e: IllegalArgumentException) {
+                snack(activityMainBinding.root, e.message!!)
+            }
 
+            printLog("ok 可以提交了")
+
+            val gender = if (activityMainBinding.rbMela.isChecked) 1 else 0
+            val personInfo = createPersonInfo(
+                activityMainBinding.etUsername.text.toString(),
+                activityMainBinding.etPhone.text.toString(),
+                gender,
+                buildCheckBoxesResult()
+            )
+            printLog(personInfo.toString())
+
+            // activityMainBinding.ivAvatar
+        }
+
+        activityMainBinding.etPhone.addTextChangedListener {
             val len = it.toString().length
             activityMainBinding.tvNumCount.text = String.format("%d/11", len)
         }
@@ -53,13 +73,11 @@ class MainActivity : AppCompatActivity() {
         setAvatar(Uri.parse(savedInstanceState.getString(KEY_URI, null)))
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == RESULT_OK && requestCode == REQUEST_GET_SINGLE_FILE) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_GET_SINGLE_FILE)
             setAvatar(data!!.data!!)
-        }
     }
 
     private fun setAvatar(uri: Uri) {
@@ -68,4 +86,43 @@ class MainActivity : AppCompatActivity() {
         val imageView = activityMainBinding.ivAvatar
         Glide.with(imageView.context).load(uri).apply(transform).into(imageView)
     }
+
+    private fun checkInputsValidate() {
+        val username = activityMainBinding.etUsername.text.toString()
+        if (TextUtils.isEmpty(username))
+            throw IllegalArgumentException("username is null")
+
+        val phone = activityMainBinding.etPhone.text.toString()
+        if (TextUtils.isEmpty(phone))
+            throw IllegalArgumentException("phone number is null")
+
+        if (isPhoneInvalidate(phone))
+            throw IllegalArgumentException("phone number is invalidate")
+
+        val cbJavaChecked = activityMainBinding.cbJava.isChecked
+        val cbAndroidChecked = activityMainBinding.cbAndroid.isChecked
+        val cbEnglishChecked = activityMainBinding.cbEnglish.isChecked
+        val cbMathChecked = activityMainBinding.cbMath.isChecked
+        if (!cbJavaChecked && !cbAndroidChecked && !cbEnglishChecked && !cbMathChecked)
+            throw IllegalArgumentException("check boxes need checked once at least")
+    }
+
+    fun buildCheckBoxesResult(): String {
+        val stringBuilder = StringBuilder()
+        if (activityMainBinding.cbJava.isChecked)
+            stringBuilder.append("Java")
+        if (activityMainBinding.cbAndroid.isChecked)
+            stringBuilder.append("|Android")
+        if (activityMainBinding.cbEnglish.isChecked)
+            stringBuilder.append("|English")
+        if (activityMainBinding.cbMath.isChecked)
+            stringBuilder.append("|Math")
+        var sb = stringBuilder.toString()
+        if (sb.indexOf("|") == 0)
+            sb = sb.substring(1, sb.length)
+        return sb
+    }
+
+    fun createPersonInfo(username: String, phone: String, gender: Int, favLesson: String) =
+        PersonInfo(username, phone, gender, favLesson)
 }
