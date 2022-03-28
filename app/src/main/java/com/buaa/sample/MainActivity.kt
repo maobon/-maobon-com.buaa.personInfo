@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
             throw IllegalArgumentException("check boxes need checked once at least")
     }
 
-    fun buildCheckBoxesResult(): String {
+    private fun buildCheckBoxesResult(): String {
         val stringBuilder = StringBuilder()
         if (activityMainBinding.cbJava.isChecked)
             stringBuilder.append("Java")
@@ -123,6 +123,6 @@ class MainActivity : AppCompatActivity() {
         return sb
     }
 
-    fun createPersonInfo(username: String, phone: String, gender: Int, favLesson: String) =
+    private fun createPersonInfo(username: String, phone: String, gender: Int, favLesson: String) =
         PersonInfo(username, phone, gender, favLesson)
 }
