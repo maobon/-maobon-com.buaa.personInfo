@@ -24,7 +24,7 @@ fun toast(context: Context, hint: String) =
 fun snack(view: View, hint: String, listener: View.OnClickListener? = null) {
     val snack = Snackbar.make(view, hint, Snackbar.LENGTH_SHORT)
     if (listener != null)
-        snack.setAction("action", listener)
+        snack.setAction("check it out", listener)
     snack.show()
 }
 
