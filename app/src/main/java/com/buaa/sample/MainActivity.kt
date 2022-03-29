@@ -80,7 +80,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.item_authorize) {
-            showContentDialog(this, "Authorized", "Create by xin on 2022-3-28")
+            showContentDialog(
+                this,
+                getString(R.string.dialog_authorize_title),
+                getString(R.string.dialog_authorize_content)
+            )
         }
         return true
     }

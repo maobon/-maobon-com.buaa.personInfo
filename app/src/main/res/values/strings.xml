@@ -11,4 +11,7 @@
     <string name="text_lesson_english">大学英语</string>
     <string name="text_lesson_math">高等数学</string>
     <string name="button_text">确定</string>
+
+    <string name="dialog_authorize_title">Authorized</string>
+    <string name="dialog_authorize_content">Create by xin on 2022-3-28</string>
 </resources>
